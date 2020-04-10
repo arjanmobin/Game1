@@ -1,12 +1,13 @@
 var socket;
 
 var playerColor = {}
+var balls = []
 
 function setup() {
     createCanvas(800, 700)
     background(50)
     socket = io()
-    socket.on("playerData", drawOthers)
+    socket.on("ballData", drawBalls)
 
     playerColor = {
         r: random(255),
@@ -16,11 +17,11 @@ function setup() {
     
 }
 
+function drawBalls(ballData) {
+    for (let i = 0; i < ballData.balls.length; i++) {
+        balls[i].up
+    }
 
-function drawOthers(playerData) {
-    noStroke();
-    fill(playerData.color.r,playerData.color.g,playerData.color.b)
-    ellipse(playerData.mouseX, playerData.mouseY, 36, 36)
 }
 
 function mouseClicked() {
@@ -29,21 +30,17 @@ function mouseClicked() {
         g: random(255),
         b: random(255)
     }
+
+    balls.push(new Ball())
 }
 
-function mouseDragged() {
-    let playerData = {
-        mouseX,
-        mouseY,
-        color: playerColor
-    }
 
-    socket.emit("playerData", playerData)
-    noStroke();
-    fill(playerColor.r, playerColor.g, playerColor.b)
-    ellipse(mouseX, mouseY, 36, 36)
-}
 
 function draw() {
+    ballData = {
+        balls
+    }
+    socket.emit("ballData", ballData)
 
 }
+

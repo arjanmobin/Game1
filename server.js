@@ -22,7 +22,9 @@ hbs.registerPartials(path.join(__dirname, "views/partials"));
 console.log("Server running")
 
 io.sockets.on("connection", (socket) => {
-   socket.on("playerData", (playerData) => {
+   socket.on("ballData", (ballData) => {
+
+        for (let i = 0; i < ballData.ball.length)
        socket.broadcast.emit("playerData", playerData)
    }) 
 })
