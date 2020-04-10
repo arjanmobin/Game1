@@ -5,7 +5,7 @@ var balls = []
 
 function setup() {
     createCanvas(800, 700)
-    background(50)
+    background(51)
     socket = io()
     socket.on("ballData", drawBalls)
 
