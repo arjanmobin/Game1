@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require("express")
 const port = process.env.PORT || 3000;
 const app = express()
@@ -8,6 +9,7 @@ const path = require('path');
 const _ = require('lodash');
 const socket = require("socket.io")
 const io = socket(server)
+const ngrok = require("ngrok")
 
 //EXPRESS CONFIG
 app.use(bodyParser.json());
@@ -21,11 +23,12 @@ hbs.registerPartials(path.join(__dirname, "views/partials"));
 console.log("Server running")
 
 io.sockets.on("connection", (socket) => {
-   console.log(socket); 
+   socket.on("mouse", (mouseData) => {
+       socket.broadcast.emit("mouse", mouseData)
+   }) 
 })
 
 app.get("/", (req, res) => {
     res.render("index.hbs")
 })
 
-// io.on("connect")
