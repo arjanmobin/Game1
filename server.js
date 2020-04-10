@@ -9,7 +9,6 @@ const path = require('path');
 const _ = require('lodash');
 const socket = require("socket.io")
 const io = socket(server)
-const ngrok = require("ngrok")
 
 //EXPRESS CONFIG
 app.use(bodyParser.json());
@@ -23,8 +22,8 @@ hbs.registerPartials(path.join(__dirname, "views/partials"));
 console.log("Server running")
 
 io.sockets.on("connection", (socket) => {
-   socket.on("mouse", (mouseData) => {
-       socket.broadcast.emit("mouse", mouseData)
+   socket.on("playerData", (playerData) => {
+       socket.broadcast.emit("playerData", playerData)
    }) 
 })
 

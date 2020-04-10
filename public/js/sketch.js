@@ -1,26 +1,46 @@
 var socket;
 
+var playerColor = {}
+
 function setup() {
     createCanvas(800, 700)
     background(50)
     socket = io()
-    socket.on("mouse", drawOthers)
+    socket.on("playerData", drawOthers)
+
+    playerColor = {
+        r: random(255),
+        g: random(255),
+        b: random(255)
+    }
+    
 }
 
-function drawOthers(mouseData) {
+
+function drawOthers(playerData) {
     noStroke();
-    fill(255)
-    ellipse(mouseData.x, mouseData.y, 36, 36)
+    fill(playerData.color.r,playerData.color.g,playerData.color.b)
+    ellipse(playerData.mouseX, playerData.mouseY, 36, 36)
+}
+
+function mouseClicked() {
+    playerColor = {
+        r: random(255),
+        g: random(255),
+        b: random(255)
+    }
 }
 
 function mouseDragged() {
-    let data = {
-        x: mouseX,
-        y: mouseY
+    let playerData = {
+        mouseX,
+        mouseY,
+        color: playerColor
     }
-    socket.emit("mouse", data)
+
+    socket.emit("playerData", playerData)
     noStroke();
-    fill(255)
+    fill(playerColor.r, playerColor.g, playerColor.b)
     ellipse(mouseX, mouseY, 36, 36)
 }
 
