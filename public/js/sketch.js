@@ -7,15 +7,15 @@
 //     background(51)
 //     socket = io()
 //     socket.on("playerData", drawOtherPlayers)
-    
+
 // }
 
 // function draw() {
-    
+
 //     updateMyPlayer()
 //     drawPlayer(myPlayer)
 //     sendPlayer()
-    
+
 // }
 
 // function drawOtherPlayers (otherPlayer){
@@ -38,9 +38,10 @@
 //         y: mouseY
 //     }
 // }
-    
 
 
 
 
 
+
+}
