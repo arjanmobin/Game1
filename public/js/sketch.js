@@ -1,46 +1,46 @@
-var socket;
+// var socket;
+// var myPlayer;
 
-var playerColor = {}
-var balls = []
-
-function setup() {
-    createCanvas(800, 700)
-    background(51)
-    socket = io()
-    socket.on("ballData", drawBalls)
-
-    playerColor = {
-        r: random(255),
-        g: random(255),
-        b: random(255)
-    }
+// function setup() {
+//     createCanvas(800, 700)
+//     myPlayer = new Player();
+//     background(51)
+//     socket = io()
+//     socket.on("playerData", drawOtherPlayers)
     
-}
+// }
 
-function drawBalls(ballData) {
-    for (let i = 0; i < ballData.balls.length; i++) {
-        balls[i].up
-    }
+// function draw() {
+    
+//     updateMyPlayer()
+//     drawPlayer(myPlayer)
+//     sendPlayer()
+    
+// }
 
-}
+// function drawOtherPlayers (otherPlayer){
+//     drawPlayer(otherPlayer)
+// }
 
-function mouseClicked() {
-    playerColor = {
-        r: random(255),
-        g: random(255),
-        b: random(255)
-    }
+// function sendPlayer() {
+//     socket.emit("playerData", myPlayer)
+// }
 
-    balls.push(new Ball())
-}
+// function drawPlayer(player){
+//     fill(player.color.r, player.color.g, player.color.b);
+//     strokeWeight(0);
+//     ellipse(player.pos.x, player.pos.y, player.radius, player.radius)
+// }
+
+// function updateMyPlayer() {
+//     myPlayer.pos = {
+//         x: PIXI.interaction.,
+//         y: mouseY
+//     }
+// }
+    
 
 
 
-function draw() {
-    ballData = {
-        balls
-    }
-    socket.emit("ballData", ballData)
 
-}
 

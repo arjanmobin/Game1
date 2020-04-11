@@ -10,6 +10,8 @@ const _ = require('lodash');
 const socket = require("socket.io")
 const io = socket(server)
 
+
+
 //EXPRESS CONFIG
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -21,15 +23,35 @@ hbs.registerPartials(path.join(__dirname, "views/partials"));
 
 console.log("Server running")
 
-io.sockets.on("connection", (socket) => {
-   socket.on("ballData", (ballData) => {
+//HOLDS ALL PLAYERS
+const Players = {};
 
-        for (let i = 0; i < ballData.ball.length)
-       socket.broadcast.emit("playerData", playerData)
-   }) 
+io.sockets.on("connection", (socket) => {
+    console.log("player joined");
+    socket.emit("id", socket.id);
+
+    socket.on("joined", (data) => {
+        console.log(JSON.stringify(data));
+        Players[socket.id] = data.player;
+        Players[socket.id]
+        socket.broadcast.emit("playerMade",{
+            id: socket.id,
+
+        });
+    })
+
+    socket.on("playerData", (player) => {
+        console.log("Packet Recieved From Player: ", socket.id, player.x, player.y)
+        
+        socket.broadcast.emit("playerData", {
+            id: socket.id,
+            player: player
+        })
+    })
+    
+   
 })
 
 app.get("/", (req, res) => {
     res.render("index.hbs")
 })
-
