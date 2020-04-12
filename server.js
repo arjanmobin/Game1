@@ -28,24 +28,22 @@ const Players = {};
 
 io.sockets.on("connection", (socket) => {
     console.log("player joined");
-    socket.emit("id", socket.id);
+    // socket.emit("id", socket.id);
 
     socket.on("joined", (data) => {
-        console.log(JSON.stringify(data));
-        Players[socket.id] = data.player;
-        Players[socket.id]
-        socket.broadcast.emit("playerMade",{
+        socket.broadcast.emit("playerMade", {
             id: socket.id,
-
-        });
+            playerPacket: data.playerPacket,
+            color: data.color
+        })
     })
 
-    socket.on("playerData", (player) => {
-        console.log("Packet Recieved From Player: ", socket.id, player.x, player.y)
+    socket.on("playerData", (playerPacket) => {
+        console.log("Packet Recieved From Player: ", socket.id, playerPacket.x, playerPacket.y)
         
         socket.broadcast.emit("playerData", {
             id: socket.id,
-            player: player
+            playerPacket: playerPacket
         })
     })
     

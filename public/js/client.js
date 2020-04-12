@@ -10,9 +10,11 @@ app.stage.interactive = true;
 
 
 socket.emit("joined", {
-  player: getPlayerPacket(myPlayer),
+  playerPacket: getPlayerPacket(myPlayer),
   color: myPlayer.color
 })
+
+
 
 app.stage.on("pointermove", pointerMove)
 
@@ -23,21 +25,29 @@ socket.on("playerData", drawOtherPlayer)
 socket.on("playerMade", playerMade)
 
 function playerMade(data) {
-  otherPlayers[data.player.id] = new Player(data.player.id);
-  otherPlayers[data.player.id].color = data.color;
-  console.log(otherPlayers)  
+  createPlayer(data)
+  drawOtherPlayer(otherPlayers[data.id]) 
 }
 
+function createPlayer(data) {
+  otherPlayers[data.id] = new OtherPlayer(data.id, data.playerPacket, data.color);
+}
 
 function drawOtherPlayer(data) {
 
-  otherPlayers[data.id].pos.x = data.player.x
-  otherPlayers[data.id].pos.y = data.player.y
-  drawPlayer(otherPlayers[data.id])
+  
+  if (!(data.id in otherPlayers)) {
+    createPlayer(data)
+  }
+  otherPlayers[data.id].pos.x = data.playerPacket.x
+  otherPlayers[data.id].pos.y = data.playerPacket.y
+
+  console.log("OPA: ", data.id.substring(0,5), otherPlayers[data.id].pos.x, otherPlayers[data.id].pos.y)
 }
 
 function drawPlayer(player) {
-  //DRAW PLAYER W PIXI
+    let circle = PIXI.Graphics()
+    
   
   
   
@@ -65,11 +75,8 @@ function pointerMove(e) {
 function getPlayerPacket(player) {
   let data = {
     x: player.pos.x,
-    y: player.pos.y
+    y: player.pos.y,
   }
 
   return data;
 }
-
-
-    
